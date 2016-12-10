@@ -4,9 +4,7 @@ import {
   FragmentDefinitionNode,
 } from 'graphql';
 
-import assign = require('lodash.assign');
-import countBy = require('lodash.countby');
-import identity = require('lodash.identity');
+import { assign, countBy, identity } from 'lodash';
 
 export function getMutationDefinition(doc: DocumentNode): OperationDefinitionNode {
   checkDocument(doc);
