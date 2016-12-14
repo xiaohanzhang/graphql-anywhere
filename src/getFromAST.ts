@@ -4,8 +4,6 @@ import {
   FragmentDefinitionNode,
 } from 'graphql';
 
-import { assign, countBy, identity } from 'lodash';
-
 export function getMutationDefinition(doc: DocumentNode): OperationDefinitionNode {
   checkDocument(doc);
 
@@ -31,13 +29,12 @@ export function checkDocument(doc: DocumentNode) {
 string in a "gql" tag? http://docs.apollostack.com/apollo-client/core.html#gql`);
   }
 
-  const definitionTypes = doc.definitions.map((definition) => {
-    return definition.kind;
-  });
-  const typeCounts = countBy(definitionTypes, identity);
+  const numOpDefinitions = doc.definitions.filter((definition) => {
+    return definition.kind === 'OperationDefinition';
+  }).length;
 
   // can't have more than one operation definition per query
-  if (typeCounts['OperationDefinition'] > 1) {
+  if (numOpDefinitions > 1) {
     throw new Error('Queries must have exactly one operation definition.');
   }
 }
@@ -123,9 +120,10 @@ export function createFragmentMap(fragments: FragmentDefinitionNode[] = []): Fra
 export function addFragmentsToDocument(queryDoc: DocumentNode,
   fragments: FragmentDefinitionNode[]): DocumentNode {
   checkDocument(queryDoc);
-  return assign({}, queryDoc, {
+  return {
+    ...queryDoc,
     definitions: queryDoc.definitions.concat(fragments),
-  }) as DocumentNode;
+  } as DocumentNode;
 }
 
 export function getMainDefinition(queryDoc: DocumentNode): OperationDefinitionNode | FragmentDefinitionNode {
