@@ -1,6 +1,6 @@
 # Change log
 
-### vNEXT
+### v1.1.0
 
 Remove lodash, meaning this package now has zero direct dependencies (although you still need something that will provide a parsed GraphQL query to use it).
 
