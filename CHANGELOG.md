@@ -1,5 +1,9 @@
 # Change log
 
+### vNEXT
+
+Remove lodash, meaning this package now has zero direct dependencies (although you still need something that will provide a parsed GraphQL query to use it).
+
 ### v1.0.0
 
 Releasing 0.3.0 as 1.0.0 in order to be explicit about Semantic Versioning.
